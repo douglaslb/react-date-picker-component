@@ -1,50 +1,30 @@
-# React + TypeScript + Vite
+# Date Picker Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A customizable React Date Picker component built with Tailwind CSS that supports three variants: single date selection, multiple date selection, and range date selection.
 
-Currently, two official plugins are available:
+## Usage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The app includes a date picker that can be used in different types:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
+- Single Date
+- Multiple Dates
+- Date Range
 
 ```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+import { DatePicker } from "./components/DatePicker";
+import { DatePickerValue } from "./components/DatePicker/types";
+
+const MyComponent = () => {
+  const [datePickerValue, setDatePickerValue] = useState < DatePickerValue > {};
+
+  return (
+    <DatePicker
+      value={datePickerValue}
+      setValue={setDatePickerValue}
+      type="single | multiple | range"
+    />
+  );
+};
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Inspired by the YouTube video: [Date Picker Tutorial - SolidJS](https://www.youtube.com/watch?v=7Tp8l909gHQ).
