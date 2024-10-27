@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { DatePickerProps } from "./types";
 import { DatePickerInput } from "./DatePickerInput";
+import { DatePickerHeader } from "./DatePickerHeader";
+import { DatePickerBody } from "./DatePickerBody";
+import { twMerge } from "tailwind-merge";
 
 export function DatePicker(props: DatePickerProps) {
   const today = new Date();
@@ -44,6 +47,32 @@ export function DatePicker(props: DatePickerProps) {
         rangeSelected={selectedRange}
         setDateView={setViewDate}
       />
+
+      <div
+        className={twMerge(
+          "absolute flex flex-col gap-2 shadow-md bg-gray-950 rounded-lg mt-4 px-4 h-fit w-64 items-center transition-all z-50 left-1/2 -translate-x-1/2",
+          isOpen
+            ? "max-h-96 py-4 border border-white/10 translate-y-0 opacity-100 duration-300 scale-100"
+            : "max-h-0 py-0 border-transparent border-none -translate-y-6 opacity-0 scale-75 overflow-hidden"
+        )}
+      >
+        <DatePickerHeader
+          dateView={viewDate}
+          onClickMonth={handleOnClickMonth}
+          onClickYear={handleOnClickYear}
+          onClickPrev={handleOnClickPrevMonth}
+          onClickNext={handleOnClickNextMonth}
+        />
+        <DatePickerBody
+          type={props.type}
+          dateView={viewDate}
+          setDateView={setViewDate}
+          dateSelected={selectedDate}
+          datesSelected={selectedDates}
+          rangeSelected={selectedRange}
+          onClickDate={handleOnClickDate}
+        />
+      </div>
     </div>
   );
 }

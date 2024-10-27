@@ -35,3 +35,44 @@ export function createYearsArray(date: Date): DropdownItem[] {
 
   return yearsArray;
 }
+
+export function createDatesArray(date: Date): Date[] {
+  const daysArray: Date[] = [];
+
+  // Get last day of current, previous, and next month
+  const currentMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  const prevMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+  const nextMonth = new Date(date.getFullYear(), date.getMonth() + 2, 0);
+
+  // Calculate number of days
+  const numberOfDaysInCurrentMonth = currentMonth.getDate();
+  const numberOfDaysInPreviousMonth = prevMonth.getDate();
+
+  // Find out which day the month starts on
+  const startDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+  // Add previous month's days
+  for (let i = startDay; i > 0; i--) {
+    daysArray.push(
+      new Date(
+        prevMonth.getFullYear(),
+        prevMonth.getMonth(),
+        numberOfDaysInPreviousMonth - i + 1
+      )
+    );
+  }
+
+  // Add current month's days
+  for (let i = 1; i <= numberOfDaysInCurrentMonth; i++) {
+    daysArray.push(new Date(date.getFullYear(), date.getMonth(), i));
+  }
+
+  // Add next month's days
+  const totalDaysInArray = 42;
+  const daysLeft = totalDaysInArray - daysArray.length;
+  for (let i = 1; i <= daysLeft; i++) {
+    daysArray.push(new Date(nextMonth.getFullYear(), nextMonth.getMonth(), i));
+  }
+
+  return daysArray;
+}
