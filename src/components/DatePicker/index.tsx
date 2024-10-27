@@ -4,6 +4,7 @@ import { DatePickerInput } from "./DatePickerInput";
 import { DatePickerHeader } from "./DatePickerHeader";
 import { DatePickerBody } from "./DatePickerBody";
 import { twMerge } from "tailwind-merge";
+import { equalDates } from "./utils";
 
 export function DatePicker(props: DatePickerProps) {
   const today = new Date();
@@ -66,7 +67,19 @@ export function DatePicker(props: DatePickerProps) {
 
   function handleOnClickDate(selectedDate: Date) {
     if (props.type == "multiple") {
-      return;
+      setSelectedDates((prevSelectedDates) => {
+        const hasDate = prevSelectedDates.find((date) =>
+          equalDates(date, selectedDate)
+        );
+
+        if (!hasDate) {
+          return [...prevSelectedDates, selectedDate];
+        }
+
+        return prevSelectedDates.filter(
+          (date) => !equalDates(date, selectedDate)
+        );
+      });
     }
 
     if (props.type == "range") {

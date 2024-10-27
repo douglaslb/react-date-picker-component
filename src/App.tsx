@@ -12,15 +12,15 @@ function App() {
           Single Date Picker
         </h3>
         <DatePicker value={datePickerValue} setValue={setDatePickerValue} />
-        {/* <h3 class="text-white font-semibold text-sm mb-2 mt-8">
+        <h3 className="text-white font-semibold text-sm mb-2 mt-8">
           Multiple Date Picker
         </h3>
         <DatePicker
-          value={calendarValue}
+          value={datePickerValue}
           setValue={setDatePickerValue}
           type="multiple"
         />
-        <h3 class="text-white font-semibold text-sm mb-2 mt-8">
+        {/*  <h3 class="text-white font-semibold text-sm mb-2 mt-8">
           Range Date Picker
         </h3>
         <DatePicker

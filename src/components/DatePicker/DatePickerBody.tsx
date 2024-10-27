@@ -17,6 +17,7 @@ export function DatePickerBody({
   dateView,
   type,
   dateSelected,
+  datesSelected,
   onClickDate,
 }: DatePickerBodyProps) {
   const today = new Date();
@@ -40,6 +41,7 @@ export function DatePickerBody({
             key={date.toISOString()}
             className="flex items-center justify-center"
           >
+            {/* SINGLE TYPE SELECTION */}
             {(!type || type === "single") && (
               <div
                 onClick={() => onClickDate(date)}
@@ -48,6 +50,26 @@ export function DatePickerBody({
                   equalDates(today, date) &&
                     "border border-dashed border-white/30",
                   equalDates(dateSelected, date) &&
+                    "bg-orange-700 hover:bg-orange-700",
+                  dateView.getMonth() !== date.getMonth() ||
+                    dateView.getFullYear() !== dateView.getFullYear()
+                    ? "text-white/30"
+                    : ""
+                )}
+              >
+                {date.getDate()}
+              </div>
+            )}
+
+            {/* MULTIPLE TYPE SELECTION */}
+            {type === "multiple" && (
+              <div
+                onClick={() => onClickDate(date)}
+                className={twMerge(
+                  "flex items-center justify-center text-center text-xs font-semibold cursor-pointer rounded-full hover:bg-white/10 w-8 h-8 transition-all select-none active:scale-90",
+                  equalDates(today, date) &&
+                    "border border-dashed border-white/30",
+                  datesSelected.some((d) => equalDates(d, date)) &&
                     "bg-orange-700 hover:bg-orange-700",
                   dateView.getMonth() !== date.getMonth() ||
                     dateView.getFullYear() !== dateView.getFullYear()

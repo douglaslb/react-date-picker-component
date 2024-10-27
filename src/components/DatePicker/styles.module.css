@@ -11,3 +11,15 @@
   background-color: rgba(255, 255, 255, 0.778);
   border-radius: 100px;
 }
+
+.dateInput::-webkit-scrollbar {
+  height: 0px;
+}
+
+.dateInput::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.dateInput::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}

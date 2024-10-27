@@ -1,6 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import { DatePickerType } from "./types";
 
+import styles from "./styles.module.css";
+
 export interface DatePickerInputProps {
   type?: DatePickerType;
   isOpen: boolean;
@@ -16,6 +18,7 @@ export function DatePickerInput({
   setIsOpen,
   type,
   dateSelected,
+  datesSelected,
 }: DatePickerInputProps) {
   return (
     <div
@@ -33,6 +36,22 @@ export function DatePickerInput({
           month: "short",
           year: "numeric",
         })}
+
+      {type === "multiple" && (
+        <div
+          className={`${styles.dateInput} flex items-center overflow-x-auto gap-1`}
+        >
+          {datesSelected.map((date, index) => (
+            <p key={date.toISOString()} className="whitespace-nowrap">
+              {`${index >= 1 ? `• ` : ""} ${date.toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}`}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
