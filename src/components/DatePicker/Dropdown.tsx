@@ -21,19 +21,22 @@ export function Dropdown({
 }: DropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  function handleClickOutside(event: Event) {
-    if (dropdownRef && !dropdownRef.current!.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  }
-
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, [setIsOpen]);
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -53,6 +56,7 @@ export function Dropdown({
       >
         {items.map((item) => (
           <div
+            key={item.id}
             onClick={() => {
               onClick(item);
               setIsOpen(false);
