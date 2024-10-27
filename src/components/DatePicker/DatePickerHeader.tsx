@@ -1,6 +1,6 @@
 import { DropdownItem } from "./types";
 import { Dropdown } from "./Dropdown";
-import { createYearsArray, MONTHS } from "../../utils";
+import { createYearsArray, MONTHS } from "./utils";
 import { useState } from "react";
 
 export interface DatePickerHeaderProps {

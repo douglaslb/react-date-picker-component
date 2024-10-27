@@ -1,4 +1,4 @@
-import { DropdownItem } from "../components/DatePicker/types";
+import { DropdownItem } from "./types";
 
 export const MONTHS: DropdownItem[] = [
   { id: 0, label: "JAN" },
@@ -75,4 +75,12 @@ export function createDatesArray(date: Date): Date[] {
   }
 
   return daysArray;
+}
+
+export function equalDates(date1: Date, date2: Date) {
+  const isSameDay = date1.getDate() === date2.getDate();
+  const isSameMonth = date1.getMonth() === date2.getMonth();
+  const isSameYear = date1.getFullYear() === date2.getFullYear();
+
+  return isSameDay && isSameMonth && isSameYear;
 }

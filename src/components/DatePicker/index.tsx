@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DatePickerProps } from "./types";
+import { DatePickerProps, DropdownItem } from "./types";
 import { DatePickerInput } from "./DatePickerInput";
 import { DatePickerHeader } from "./DatePickerHeader";
 import { DatePickerBody } from "./DatePickerBody";
@@ -30,11 +30,53 @@ export function DatePicker(props: DatePickerProps) {
     end: props.value.endDate ?? today,
   });
 
-  function handleOnClickMonth() {}
-  function handleOnClickYear() {}
-  function handleOnClickNextMonth() {}
-  function handleOnClickPrevMonth() {}
-  function handleOnClickDate() {}
+  function handleOnClickMonth(item: DropdownItem) {
+    setViewDate((prevViewDate) => {
+      const newViewDate = new Date(prevViewDate);
+      newViewDate.setMonth(item.id);
+      return newViewDate;
+    });
+  }
+
+  function handleOnClickYear(item: DropdownItem) {
+    setViewDate((prevViewDate) => {
+      const newViewDate = new Date(prevViewDate);
+      newViewDate.setFullYear(item.id);
+      return newViewDate;
+    });
+  }
+
+  function handleOnClickNextMonth() {
+    setViewDate((prevViewDate) => {
+      const newViewDate = new Date(prevViewDate);
+      newViewDate.setMonth(newViewDate.getMonth() + 2, 0);
+
+      return newViewDate;
+    });
+  }
+
+  function handleOnClickPrevMonth() {
+    setViewDate((prevViewDate) => {
+      const newViewDate = new Date(prevViewDate);
+      newViewDate.setMonth(newViewDate.getMonth(), 0);
+
+      return newViewDate;
+    });
+  }
+
+  function handleOnClickDate(selectedDate: Date) {
+    if (props.type == "multiple") {
+      return;
+    }
+
+    if (props.type == "range") {
+      return;
+    }
+
+    setSelectedDate(selectedDate);
+    setViewDate(selectedDate);
+    props.setValue({ selectedDate });
+  }
 
   return (
     <div className="relative">

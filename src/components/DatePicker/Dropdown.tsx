@@ -63,7 +63,7 @@ export function Dropdown({
             }}
             className={twMerge(
               "text-white flex items-center justify-center text-center text-xs font-bold cursor-pointer hover:bg-white/10 rounded-md py-1 px-3",
-              currentSelected == item.id && "bg-orange-600 hover:bg-orange-600"
+              currentSelected == item.id && "bg-orange-700 hover:bg-orange-700"
             )}
           >
             {item.label}
