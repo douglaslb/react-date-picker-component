@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DatePickerProps, DropdownItem } from "./types";
 import { DatePickerInput } from "./DatePickerInput";
 import { DatePickerHeader } from "./DatePickerHeader";
@@ -7,9 +7,10 @@ import { twMerge } from "tailwind-merge";
 import { equalDates } from "./utils";
 
 export function DatePicker(props: DatePickerProps) {
+  const datePickerRef = useRef<HTMLDivElement>(null);
   const today = new Date();
 
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [viewDate, setViewDate] = useState<Date>(today);
 
   //For single selection
@@ -24,12 +25,29 @@ export function DatePicker(props: DatePickerProps) {
 
   //For range selection
   const [selectedRange, setSelectedRange] = useState<{
-    start: Date;
-    end: Date;
+    start?: Date;
+    end?: Date;
   }>({
     start: props.value.startDate ?? today,
     end: props.value.endDate ?? today,
   });
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setIsOpen]);
 
   function handleOnClickMonth(item: DropdownItem) {
     setViewDate((prevViewDate) => {
@@ -80,9 +98,78 @@ export function DatePicker(props: DatePickerProps) {
           (date) => !equalDates(date, selectedDate)
         );
       });
+
+      return;
     }
 
     if (props.type == "range") {
+      if (!selectedRange.start) {
+        setSelectedRange(() => {
+          return {
+            start: selectedDate,
+            end: undefined,
+          };
+        });
+
+        props.setValue({
+          startDate: selectedRange.start,
+          endDate: selectedRange.end,
+        });
+
+        return;
+      }
+
+      const isSelectedDateDifferentFromStartDate = !equalDates(
+        selectedDate,
+        selectedRange.start
+      );
+
+      if (
+        selectedRange.start &&
+        !selectedRange.end &&
+        isSelectedDateDifferentFromStartDate
+      ) {
+        const isSelectedDateBeforeStartDate =
+          selectedDate.getTime() < selectedRange.start.getTime();
+
+        if (isSelectedDateBeforeStartDate) {
+          setSelectedRange((prevSelectedRange) => {
+            return {
+              start: selectedDate,
+              end: prevSelectedRange.start,
+            };
+          });
+
+          return;
+        }
+
+        setSelectedRange((prevSelectedRange) => {
+          return {
+            start: prevSelectedRange.start,
+            end: selectedDate,
+          };
+        });
+
+        props.setValue({
+          startDate: selectedRange.start,
+          endDate: selectedRange.end,
+        });
+      }
+
+      if (selectedRange.start && selectedRange.end) {
+        setSelectedRange({
+          start: selectedDate,
+          end: undefined,
+        });
+
+        props.setValue({
+          startDate: selectedRange.start,
+          endDate: selectedRange.end,
+        });
+
+        return;
+      }
+
       return;
     }
 
@@ -92,7 +179,7 @@ export function DatePicker(props: DatePickerProps) {
   }
 
   return (
-    <div className="relative">
+    <div ref={datePickerRef} className="relative">
       <DatePickerInput
         type={props.type}
         isOpen={isOpen}

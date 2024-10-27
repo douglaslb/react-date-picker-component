@@ -3,7 +3,15 @@ import { DatePickerValue } from "./components/DatePicker/types";
 import { DatePicker } from "./components/DatePicker";
 
 function App() {
-  const [datePickerValue, setDatePickerValue] = useState<DatePickerValue>({});
+  const start = new Date();
+  start.setDate(start.getDate() - 3);
+  const end = new Date();
+  end.setDate(end.getDate() + 2);
+
+  const [datePickerValue, setDatePickerValue] = useState<DatePickerValue>({
+    endDate: end,
+    startDate: start,
+  });
 
   return (
     <section className="w-screen h-screen bg-gray-900 flex items-center justify-center">
@@ -20,14 +28,14 @@ function App() {
           setValue={setDatePickerValue}
           type="multiple"
         />
-        {/*  <h3 class="text-white font-semibold text-sm mb-2 mt-8">
+        <h3 className="text-white font-semibold text-sm mb-2 mt-8">
           Range Date Picker
         </h3>
         <DatePicker
-          value={calendarValue}
+          value={datePickerValue}
           setValue={setDatePickerValue}
           type="range"
-        /> */}
+        />
       </div>
     </section>
   );

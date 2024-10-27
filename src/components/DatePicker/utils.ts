@@ -84,3 +84,7 @@ export function equalDates(date1: Date, date2: Date) {
 
   return isSameDay && isSameMonth && isSameYear;
 }
+
+export const betweenDates = (start: Date, date: Date, end: Date) => {
+  return start < date && date < end;
+};

@@ -9,7 +9,7 @@ export interface DatePickerInputProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   dateSelected: Date;
   datesSelected: Date[];
-  rangeSelected: { start: Date | null; end: Date | null };
+  rangeSelected: { start?: Date | null; end?: Date | null };
   setDateView: React.Dispatch<React.SetStateAction<Date>>;
 }
 
@@ -19,6 +19,7 @@ export function DatePickerInput({
   type,
   dateSelected,
   datesSelected,
+  rangeSelected,
 }: DatePickerInputProps) {
   return (
     <div
@@ -50,6 +51,33 @@ export function DatePickerInput({
               })}`}
             </p>
           ))}
+        </div>
+      )}
+
+      {type === "range" && (
+        <div
+          className={`${styles.dateInput} flex items-center overflow-x-auto gap-1`}
+        >
+          {rangeSelected.start && (
+            <p className="whitespace-nowrap">
+              {rangeSelected.start.toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
+          )}
+
+          {rangeSelected.end && (
+            <p className="whitespace-nowrap">
+              -{" "}
+              {rangeSelected.end.toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
+          )}
         </div>
       )}
     </div>
