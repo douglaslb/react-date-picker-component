@@ -1,23 +1,35 @@
 import { useState } from "react";
+import { DatePickerValue } from "./components/DatePicker/types";
+import { DatePicker } from "./components/DatePicker";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [datePickerValue, setDatePickerValue] = useState<DatePickerValue>({});
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+    <section className="w-screen h-screen bg-gray-900 flex items-center justify-center">
+      <div className="flex flex-col w-full max-w-xs">
+        <h3 className="text-white font-semibold text-sm mb-2">
+          Single Date Picker
+        </h3>
+        <DatePicker value={datePickerValue} setValue={setDatePickerValue} />
+        {/* <h3 class="text-white font-semibold text-sm mb-2 mt-8">
+          Multiple Date Picker
+        </h3>
+        <DatePicker
+          value={calendarValue}
+          setValue={setDatePickerValue}
+          type="multiple"
+        />
+        <h3 class="text-white font-semibold text-sm mb-2 mt-8">
+          Range Date Picker
+        </h3>
+        <DatePicker
+          value={calendarValue}
+          setValue={setDatePickerValue}
+          type="range"
+        /> */}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </section>
   );
 }
 
