@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DatePickerProps } from "./types";
+import { DatePickerInput } from "./DatePickerInput";
 
 export function DatePicker(props: DatePickerProps) {
   const today = new Date();
@@ -32,5 +33,17 @@ export function DatePicker(props: DatePickerProps) {
   function handleOnClickPrevMonth() {}
   function handleOnClickDate() {}
 
-  return <div>DatePicker</div>;
+  return (
+    <div className="relative">
+      <DatePickerInput
+        type={props.type}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        dateSelected={selectedDate}
+        datesSelected={selectedDates}
+        rangeSelected={selectedRange}
+        setDateView={setViewDate}
+      />
+    </div>
+  );
 }
